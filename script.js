@@ -4,6 +4,9 @@ $(document).ready(function(){
     let currentDay = $("#currentDay");
     let timeBlocks = $(".timeBlocks");
     let savedSchedule =[];
+    let now=moment();
+    let hour = now.get('hour');
+    console.log(hour);
     currentDay.text(currentTime);
 
     console.log(currentTimeBlock);
@@ -22,10 +25,27 @@ $(document).ready(function(){
         else if(i+9>12){
             hourElement.text(i-3+":00 PM");
         }
-        textElement.attr("class","col-lg-8 time-block past");
+        textElement.attr("class","col-lg-8 time-block");
         textElement.addClass("text_"+i)
         saveElement.attr("class","col-lg-2 saveBtn fas fa-save");
         saveElement.addClass("button_"+i)
+        if(hour<9){
+            textElement.addClass("future")
+        }
+        else if(hour>=9  && hour<=17){
+            if(hour-9===i){
+            textElement.addClass("present");
+            }
+            else if(hour-9<i){
+            textElement.addClass("future");
+            }
+            else{
+            textElement.addClass("past");
+            }
+        }
+        else{
+            textElement.addClass("past")
+        }
         let storedSchedule = localStorage.getItem("schedule_"+i);
         textElement.val(storedSchedule);
         timeBlocks.append(hourElement,textElement,saveElement);
