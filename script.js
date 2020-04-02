@@ -1,16 +1,18 @@
 $(document).ready(function(){
+    //retrieves current time from moment
     let currentTime=moment().format('MMMM Do YYYY, h:mm:ss a');
-    let currentTimeBlock=moment("LT"); 
+    //retrieves id for the date text
     let currentDay = $("#currentDay");
+    //retrieves class to append time blocks to
     let timeBlocks = $(".timeBlocks");
-    let savedSchedule =[];
+    //saves moment into a variable
     let now=moment();
+    //retrieves current hour from moment variable
     let hour = now.get('hour');
-    console.log(hour);
+    //sets the current time as the currentDay text
     currentDay.text(currentTime);
 
-    console.log(currentTimeBlock);
-    //creates text boxes
+    //creates text boxes,hour labels, and save buttons
     for(let i=0;i<9;i++){
         let hourElement=$("<div>");
         let textElement=$("<textarea>");
@@ -25,12 +27,14 @@ $(document).ready(function(){
         else if(i+9>12){
             hourElement.text(i-3+":00 PM");
         }
+        //adds classes to text boxes and save buttons, including index classes
         textElement.attr("class","col-lg-8 time-block");
         textElement.addClass("text_"+i)
         saveElement.attr("class","col-lg-2 saveBtn fas fa-save");
-        saveElement.addClass("button_"+i)
+        saveElement.addClass("button_"+i);
+        //changes background color of time boxes based on the current hour
         if(hour<9){
-            textElement.addClass("future")
+            textElement.addClass("future");
         }
         else if(hour>=9  && hour<=17){
             if(hour-9===i){
@@ -46,10 +50,12 @@ $(document).ready(function(){
         else{
             textElement.addClass("past")
         }
+        //sets the text in text boxes as whatever is saved in corresponding schedule local storage
         let storedSchedule = localStorage.getItem("schedule_"+i);
         textElement.val(storedSchedule);
         timeBlocks.append(hourElement,textElement,saveElement);
     }
+    //calls a save function depending on which save button is pressed
     save(0);
     save(1);
     save(2);
@@ -60,19 +66,14 @@ $(document).ready(function(){
     save(7);
     save(8);
 
+    //save function
 function save(button){
     $(".button_"+button).on("click",function(){
-        var newText=$(".text_"+button).val();
+        //saves text in whichever text area corresponds to the button you clicked
+        let newText=$(".text_"+button).val();
         localStorage.setItem("schedule_"+button,newText)
     })
 }
     
 
 });
-
-// var storedScores = JSON.parse(localStorage.getItem("allSaves"))
-// if(storedScores!==null){
-//     savedScores.push(storedScores);
-// }
-// savedScores.push(userData);
-// localStorage.setItem("allSaves", JSON.stringify(savedScores));
