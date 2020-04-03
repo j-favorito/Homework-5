@@ -56,15 +56,10 @@ $(document).ready(function(){
         timeBlocks.append(hourElement,textElement,saveElement);
     }
     //calls a save function depending on which save button is pressed
-    save(0);
-    save(1);
-    save(2);
-    save(3);
-    save(4);
-    save(5);
-    save(6);
-    save(7);
-    save(8);
+    for(let i=0;i<9;i++){
+        save(i);
+    }
+
 
     //save function
 function save(button){
